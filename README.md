@@ -28,3 +28,14 @@ Before Check In to Git
 python3 scripts/strip_output.py notebook/demand_forecast_by_ga.ipynb
 ```
 
+# Best Practices in Managing Jupyter Notebooks
+Seperate Visualization code with following check to enable seamless headless execution
+```
+shell = "ZMQInteractiveShell"
+IN_JUPYTER = 'get_ipython' in globals() and \
+            get_ipython().__class__.__name__ == shell
+
+if IN_JUPYTER:
+  visualize_data(df)
+```
+
