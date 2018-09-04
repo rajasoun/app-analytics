@@ -22,3 +22,9 @@ Access the Notebook at
 http://localhost:8888
 ```
 
+Before Check In to Git 
+
+```
+python3 scripts/strip_output.py notebook/demand_forecast_by_ga.ipynb
+```
+
