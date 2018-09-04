@@ -1,3 +1,4 @@
+.env
 log/*.log
 .ipynb
 .ipynb_checkpoints
