@@ -5,13 +5,13 @@
 # In[1]:
 
 
-shell = "ZMQInteractiveShell"
+shell = 'ZMQInteractiveShell'
 IN_JUPYTER = 'get_ipython' in globals() and get_ipython().__class__.__name__ == shell
 
 # Allow modules and files to be loaded with relative paths
 from pkg_resources import resource_filename as fpath
 import sys
-sys.path.append(fpath(__name__, ""))
+sys.path.append(fpath(__name__, ''))
 
 
 # ## Theme
@@ -86,7 +86,7 @@ if IN_JUPYTER:
 
 def group_by_col(df, col):
     group = df.groupby(df[str(col)])
-    group_by = pd.DataFrame(group.size().reset_index(name="Count"))
+    group_by = pd.DataFrame(group.size().reset_index(name='Count'))
     return group_by
 
 
@@ -130,7 +130,7 @@ def coerce_columns_to_date(df, col):
 
 # function to create a DataFrame in the format required by Prophet
 def create_df_for_prophet(ts):
-    ts.columns = ["ds", "y"]
+    ts.columns = ['ds', 'y']
     ts = ts.dropna()
     ts.reset_index(drop=True, inplace=True)
     return ts
@@ -250,8 +250,8 @@ def convert_notebook_to_python():
 
 # import required data
 from subprocess import check_output
-input_dir = workspace_dir + "/data/input/"
-print(check_output(["ls", input_dir]).decode("utf8"))
+input_dir = workspace_dir + '/data/input/'
+print(check_output(['ls', input_dir]).decode('utf8'))
 
 
 # # Predict - From Google Analytics Data
@@ -262,7 +262,7 @@ print(check_output(["ls", input_dir]).decode("utf8"))
 
 
 max_date_past_data = '2018-08-31'  # str(clean_ga_data.ds.max().date())
-data_file = workspace_dir + "/data/input/est_daily_access.csv"
+data_file = workspace_dir + '/data/input/est_daily_access.csv'
 
 ga_data = pd.read_csv(data_file)
 m = ga_data.shape[0]
@@ -326,7 +326,7 @@ visualize_user_access(ga_data)
 # In[30]:
 
 
-holidays_csv = workspace_dir + "/data/input/us_holidays.csv"
+holidays_csv = workspace_dir + '/data/input/us_holidays.csv'
 us_public_holidays = pd.read_csv(holidays_csv)
 mdl = Prophet(
     interval_width=0.95,
@@ -386,7 +386,7 @@ ga_forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
 # In[ ]:
 
 
-modelling_csv = workspace_dir + "/data/output/prediction_based_ga_modelling.csv"
+modelling_csv = workspace_dir + '/data/output/prediction_based_ga_modelling.csv'
 ga_forecast.to_csv(modelling_csv)
 
 
@@ -440,3 +440,4 @@ result.columns = column_headers
 forecast_csv = workspace_dir + '/data/output/forecast_for_past.csv'
 result.to_csv(forecast_csv, index=False)
 result.tail()
+print('Prediction Completed Successfully ')
