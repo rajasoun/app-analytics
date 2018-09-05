@@ -25,7 +25,11 @@ repos:
     rev: v0.6.4
     hooks:
     -   id: add-trailing-comma
+-   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    sha: v1.1.0
+    hooks:
+    -   id: python-safety-dependencies-check
 -   repo: meta
     hooks:
-            # -   id: check-hooks-apply
+    # -   id: check-hooks-apply
     -   id: check-useless-excludes
