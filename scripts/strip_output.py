@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """strip outputs from an IPython Notebook
-Opens a notebook, strips its output, and writes the outputless version to the original file.
-Useful mainly as a git filter or pre-commit hook for users who don't want to track output in VCS.
-This does mostly the same thing as the `Clear All Output` command in the notebook UI.
-LICENSE: Public Domain
 """
-
 import io
 import sys
 
@@ -19,10 +14,10 @@ except ImportError:
     except ImportError:
         # IPython < 3
         from IPython.nbformat import current
-    
+
         def read(f, as_version):
             return current.read(f, 'json')
-    
+
         def write(nb, f):
             return current.write(nb, f, 'json')
 
@@ -56,4 +51,3 @@ if __name__ == '__main__':
     nb = strip_output(nb)
     with io.open(filename, 'w', encoding='utf8') as f:
         write(nb, f)
-
