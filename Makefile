@@ -10,9 +10,7 @@ env:
 	. .env/bin/activate && \
 	pip install --upgrade pip && \
 	make deps && \
-	pre-commit clean && \
-	pre-commit install && \
-	pre-commit install-hooks
+	pre-commit install
 
 deps:
 	pip3 install -r requirements.txt
