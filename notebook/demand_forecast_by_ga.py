@@ -1,15 +1,12 @@
-
+# flake8: noqa
 # coding: utf-8
-
 # # Setup
-
 # ## Jupyter Shell
-
 # In[1]:
 
 
 shell = "ZMQInteractiveShell"
-IN_JUPYTER = 'get_ipython' in globals() and             get_ipython().__class__.__name__ == shell
+IN_JUPYTER = 'get_ipython' in globals() and get_ipython().__class__.__name__ == shell
 
 # Allow modules and files to be loaded with relative paths
 from pkg_resources import resource_filename as fpath
@@ -45,7 +42,7 @@ print('python: %s' % platform.python_version())
 
 pkgs = [
     'numpy', 'matplotlib', 'pandas', 'statsmodels', 'sklearn', 'fbprophet',
-    'numba'
+    'numba',
 ]
 for pkg in pkgs:
     try:
@@ -63,7 +60,7 @@ if IN_JUPYTER:
     workspace_dir = os.path.realpath('..')
 else:
     workspace_dir = os.getcwd()
-print('Workspace Dir ->', workspace_dir )    
+print('Workspace Dir ->', workspace_dir)
 
 
 # In[7]:
@@ -122,6 +119,8 @@ def coerce_columns_to_numeric(df, column_list):
 
 import dateutil
 # Convert date from string to date times
+
+
 def coerce_columns_to_date(df, col):
     df[str(col)] = df[str(col)].apply(dateutil.parser.parse, dayfirst=True)
 
@@ -129,7 +128,7 @@ def coerce_columns_to_date(df, col):
 # In[13]:
 
 
-#function to create a DataFrame in the format required by Prophet
+# function to create a DataFrame in the format required by Prophet
 def create_df_for_prophet(ts):
     ts.columns = ["ds", "y"]
     ts = ts.dropna()
@@ -166,7 +165,7 @@ def visualize_outliers_by_col(df, col):
 # In[16]:
 
 
-#function to remove any negative forecasted values.
+# function to remove any negative forecasted values.
 def remove_negtives(ts):
     ts['yhat'] = ts['yhat'].clip_lower(0)
     ts['yhat_lower'] = ts['yhat_lower'].clip_lower(0)
@@ -179,6 +178,7 @@ def remove_negtives(ts):
 
 import math
 
+
 def mse(y_actual, y_pred):
     # compute the mean square error
     mse = ((y_actual - y_pred)**2).mean()
@@ -189,7 +189,7 @@ def mse(y_actual, y_pred):
 
 
 # Symmetric Mean Absolute Percent Error (SMAPE)
-#function to calculate in sample SMAPE scores
+# function to calculate in sample SMAPE scores
 def smape_fast(y_true, y_pred):
     out = 0
     for i in range(y_true.shape[0]):
@@ -248,10 +248,10 @@ def convert_notebook_to_python():
 # In[22]:
 
 
-#import required data
+# import required data
 from subprocess import check_output
 input_dir = workspace_dir + "/data/input/"
-print(check_output(["ls", input_dir ]).decode("utf8"))
+print(check_output(["ls", input_dir]).decode("utf8"))
 
 
 # # Predict - From Google Analytics Data
@@ -261,7 +261,7 @@ print(check_output(["ls", input_dir ]).decode("utf8"))
 # In[23]:
 
 
-max_date_past_data = '2018-08-31' #str(clean_ga_data.ds.max().date())
+max_date_past_data = '2018-08-31'  # str(clean_ga_data.ds.max().date())
 data_file = workspace_dir + "/data/input/est_daily_access.csv"
 
 ga_data = pd.read_csv(data_file)
@@ -296,7 +296,7 @@ ga_data.tail()
 
 clean_ga_data = create_df_for_prophet(ga_data)
 coerce_columns_to_numeric(clean_ga_data, ['y'])
-coerce_columns_to_date(clean_ga_data,'ds')
+coerce_columns_to_date(clean_ga_data, 'ds')
 print_cols_type(clean_ga_data)
 clean_ga_data.tail()
 
@@ -333,11 +333,13 @@ mdl = Prophet(
     daily_seasonality=True,
     weekly_seasonality=True,
     yearly_seasonality=True,
-    holidays=us_public_holidays)
+    holidays=us_public_holidays,
+)
 mdl.fit(ga_data)
 
 ga_future = mdl.make_future_dataframe(
-    periods=31 + 28, freq='D', include_history=True)
+    periods=31 + 28, freq='D', include_history=True,
+)
 ga_forecast = mdl.predict(ga_future)
 
 
@@ -395,7 +397,9 @@ ga_forecast.to_csv(modelling_csv)
 y_hat = ga_forecast['yhat'][:]
 y_true = clean_ga_data['y']
 mse = mse(y_hat, y_true)
-print('Prediction quality: {:.2f} MSE ({:.2f} RMSE)'.format(mse, math.sqrt(mse)))
+print('Prediction quality: {:.2f} MSE ({:.2f} RMSE)'.format(
+    mse, math.sqrt(mse),
+))
 
 
 # In[ ]:
@@ -410,9 +414,9 @@ print('Prediction quality: SMAPE :  {:.2f}  '.format(smape))
 # In[ ]:
 
 
-prediction = ga_forecast[['ds','yhat', 'yhat_lower', 'yhat_upper']]
+prediction = ga_forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
 column_headers = [
-    'Date', 'PredictedUser', 'Lower(PredictedUser)', 'Upper(PredictedUser)'
+    'Date', 'PredictedUser', 'Lower(PredictedUser)', 'Upper(PredictedUser)',
 ]
 prediction.columns = column_headers
 forecast_csv = workspace_dir + '/data/output/forecast_for_future.csv'
@@ -430,7 +434,7 @@ forecast = ga_forecast[['yhat', 'yhat_lower', 'yhat_upper']]
 frames = [ds, actual, forecast]
 column_headers = [
     'Date', 'ActualUser', 'PredictedUser', 'Lower(PredictedUser)',
-    'Upper(PredictedUser)'
+    'Upper(PredictedUser)',
 ]
 result = pd.concat(frames, axis=1, join='inner')
 result.columns = column_headers
@@ -446,4 +450,3 @@ result.tail()
 
 if IN_JUPYTER:
     convert_notebook_to_python()
-
