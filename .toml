@@ -1,0 +1,12 @@
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.git
+  | \.py_cache
+  | \.tox
+  | \.env
+  | reveal.js
+)/
+'''
