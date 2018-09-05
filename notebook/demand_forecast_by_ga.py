@@ -441,12 +441,3 @@ result.columns = column_headers
 forecast_csv = workspace_dir + '/data/output/forecast_for_past.csv'
 result.to_csv(forecast_csv, index=False)
 result.tail()
-
-
-# # Convert Jupyter Notebook to Python
-
-# In[65]:
-
-
-if IN_JUPYTER:
-    convert_notebook_to_python()
