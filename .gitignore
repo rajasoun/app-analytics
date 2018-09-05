@@ -4,3 +4,4 @@ log/*.log
 .ipynb_checkpoints
 data/input/*.csv
 data/output/*.csv
+.idea/
