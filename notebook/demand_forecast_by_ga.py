@@ -427,7 +427,6 @@ prediction_future.tail()
 
 # In[ ]:
 
-
 ds = ga_forecast[['ds']]
 actual = clean_ga_data['y']
 forecast = ga_forecast[['yhat', 'yhat_lower', 'yhat_upper']]
