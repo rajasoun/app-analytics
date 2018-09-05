@@ -6,7 +6,6 @@ help:
 	@echo "  clean          remove unwanted stuff"
 
 env:
-	pip3 install venv && \
 	python3 -m venv .env && \
 	. .env/bin/activate && \
 	pip install --upgrade pip && \
