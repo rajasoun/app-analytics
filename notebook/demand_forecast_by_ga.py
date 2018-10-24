@@ -261,7 +261,7 @@ print(check_output(['ls', input_dir]).decode('utf8'))
 # In[23]:
 
 
-max_date_past_data = '2018-08-31'  # str(clean_ga_data.ds.max().date())
+max_date_past_data = '2018-10-23'  # str(clean_ga_data.ds.max().date())
 data_file = workspace_dir + '/data/input/est_daily_access.csv'
 
 ga_data = pd.read_csv(data_file)
